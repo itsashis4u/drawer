@@ -19,6 +19,7 @@ const {width: DEVICE_WIDTH} = Dimensions.get('window');
 interface DrawerProps {
   initialRoute?: string;
   list: ListItem[][];
+  HeaderComponent: () => JSX.Element;
 }
 
 // Array method to flatten an array
@@ -36,7 +37,11 @@ function flatten<T>(array: T[]): FlattenArray<T>[] {
   return flattened;
 }
 
-export function Drawer({initialRoute, list = []}: DrawerProps) {
+export function Drawer({
+  initialRoute,
+  list = [],
+  HeaderComponent,
+}: DrawerProps) {
   if (!list.length) {
     throw new Error('Add at least one drawer screen');
   }
@@ -44,8 +49,6 @@ export function Drawer({initialRoute, list = []}: DrawerProps) {
   const [focusedDrawerItem, setFocusedDrawerItem] = useState(
     initialRoute || list[0][0].label,
   );
-
-  const profileName = 'Beka';
 
   function onDrawerItemPress(screen: string) {
     setFocusedDrawerItem(screen);
@@ -99,9 +102,7 @@ export function Drawer({initialRoute, list = []}: DrawerProps) {
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.animatedContainer, animatedStyle]}>
-        <View style={styles.profileNameContainer}>
-          <Text style={[styles.whiteText, styles.header]}>{profileName}</Text>
-        </View>
+        <HeaderComponent />
         <DrawerItemList
           selectedItem={focusedDrawerItem}
           list={list}
@@ -147,7 +148,6 @@ const styles = StyleSheet.create({
     width: DEVICE_WIDTH,
     paddingHorizontal: 0,
   },
-  profileNameContainer: {marginVertical: 50, paddingHorizontal: 40},
   container: {backgroundColor: 'white', flex: 1},
   animatedContainer: {
     backgroundColor: 'rgb(27, 26, 43)',
@@ -156,9 +156,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 45,
     paddingTop: 50,
     paddingHorizontal: 20,
-  },
-  whiteText: {
-    color: 'white',
   },
   header: {
     fontSize: 26,

@@ -39,8 +39,21 @@ const DRAWER_ITEMS = [
   ],
 ];
 
+function ProfileName({name}: {name: string}) {
+  return (
+    <View style={styles.profileNameContainer}>
+      <Text style={[styles.whiteText, styles.header]}>{name}</Text>
+    </View>
+  );
+}
+
 export function DrawerScreen() {
-  return <Drawer list={DRAWER_ITEMS} />;
+  return (
+    <Drawer
+      list={DRAWER_ITEMS}
+      HeaderComponent={() => <ProfileName name="Beka" />}
+    />
+  );
 }
 
 const styles = StyleSheet.create({
@@ -48,5 +61,16 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  profileNameContainer: {
+    marginVertical: 50,
+    paddingHorizontal: 40,
+  },
+  whiteText: {
+    color: 'white',
+  },
+  header: {
+    fontSize: 26,
+    fontWeight: 'bold',
   },
 });
